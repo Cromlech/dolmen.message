@@ -4,5 +4,4 @@ from dolmen.message.interfaces import (
     IMessage, IMessageSource, IMessageReceiver)
 
 from dolmen.message.components import (
-    Message, SessionSource, MessageReceiver)
-
+    Message, SessionSource, MessageReceiver, BASE_MESSAGE_TYPE)

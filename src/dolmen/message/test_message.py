@@ -7,7 +7,7 @@ from cromlech.io.testing import TestRequest
 from zope.component import getUtility
 from zope.testing.cleanup import cleanUp
 from dolmen.message import IMessageReceiver, IMessageSource
-from dolmen.message import components, utils
+from dolmen.message import components, utils, BASE_MESSAGE_TYPE
 
 
 SESSION = {}
@@ -48,6 +48,38 @@ def test_registered_receiver():
     assert receiver.__class__ == components.MessageReceiver
 
     # Receiving will delete by default.
-    messages = list(utils.receive())
+    messages = list(receiver.receive())
     assert len(messages) ==  1
     assert len(source) == 0
+
+
+def test_send_receive():
+    utils.send('Something')
+
+    messages = utils.receive('nothing')
+    assert messages == None
+
+    messages = list(utils.receive())
+    assert len(messages) ==  1
+
+
+def test_send_receive_type():
+    result = utils.send('Something', type='error')
+    assert result == True
+
+    messages = list(utils.receive(type='nothing'))
+    assert len(messages) ==  0
+
+    messages = list(utils.receive())
+    assert len(messages) ==  0
+
+    messages = list(utils.receive(type='error'))
+    assert len(messages) ==  1
+
+
+def test_send_receive_failing_name():
+    messages = utils.receive(name='unexisting')
+    assert messages == None
+
+    result = utils.send('Some message', name='unexisting')
+    assert result == False

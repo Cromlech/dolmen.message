@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from zope.component import queryUtility
-from dolmen.message import IMessageSource, IMessageReceiver
+from dolmen.message import IMessageSource, IMessageReceiver, BASE_MESSAGE_TYPE
 
 
-def send(message, type='message', name='session'):
+
+def send(message, type=BASE_MESSAGE_TYPE, name=''):
     """Adds a short message to a given source.
 
     If the message has been sent with success, True is returned.
@@ -29,7 +30,7 @@ def get_from_source(name=''):
     return list(source)
 
 
-def receive(name=''):
+def receive(name='', type=BASE_MESSAGE_TYPE):
     """Receives messages from a given receiver.
 
     If the received has been found with success, an iterable
@@ -41,4 +42,4 @@ def receive(name=''):
     receiver = IMessageReceiver(source)
     if receiver is None:
         return None
-    return receiver.receive()
+    return receiver.receive(type)

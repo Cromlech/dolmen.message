@@ -8,10 +8,13 @@ from zope.interface import implements
 from zope.component import getUtility
 
 
+BASE_MESSAGE_TYPE = u'message'
+
+
 class Message(object):
     implements(IMessage)
 
-    def __init__(self, message, type=u"message"):
+    def __init__(self, message, type=BASE_MESSAGE_TYPE):
         self.message = message
         self.type = type
 
@@ -24,7 +27,7 @@ class SessionSource(grok.GlobalUtility):
 
     _key = u'dolmen.message.session'
 
-    def send(self, text, type=u"message"):
+    def send(self, text, type=BASE_MESSAGE_TYPE):
         session = getSession()
         if session is None:
             return False
