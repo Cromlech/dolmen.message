@@ -33,17 +33,21 @@ class SessionSource(grok.GlobalUtility):
         session[self._key] = messages
         return True
 
+    def __len__(self):
+        session = getSession()
+        return len(session.get(self._key, []))
+
     def __iter__(self):
         session = getSession()
         if session is None or self._key not in session:
             return iter([])
         return iter(session[self._key])
 
-    def __delitem__(self, item):
+    def remove(self, item):
         session = getSession()
         if session is None or self._key not in session:
             raise ValueError("No session")
-        session[self._key].__delitem__(item)
+        session[self._key].remove(item)
 
 
 class MessageReceiver(grok.Adapter):
@@ -52,15 +56,8 @@ class MessageReceiver(grok.Adapter):
     grok.context(IMessageSource)
     implements(IMessageReceiver)
 
-    def receive(self, type=None)
+    def receive(self, type=None):
         for message in self.context:
             if (type and message.type == type) or not type:
                 yield message
-                self.context.__delitem__(message)
-
-
-def session_receiver():
-    return IMessageReceiver(SessionSource())
-
-
-grok.global_utility(session_receiver, IMessageReceiver, name='')
+                self.context.remove(message)

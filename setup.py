@@ -12,6 +12,7 @@ install_requires = [
     'setuptools',
     'grokcore.component',
     'zope.component',
+    'cromlech.io',
     ]
 
 tests_require = [

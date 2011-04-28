@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from zope.component import queryUtility
-from grokcore.message import IMessageSource, IMessageReceiver
+from dolmen.message import IMessageSource, IMessageReceiver
 
 
 def send(message, type='message', name='session'):
@@ -35,7 +35,10 @@ def receive(name=''):
     If the received has been found with success, an iterable
     of messages is returned. Otherwise, None is returned.
     """
-    receiver = queryUtility(IMessageReceiver, name=name)
+    source = queryUtility(IMessageSource, name=name)
+    if source is None:
+        return None
+    receiver = IMessageReceiver(source)
     if receiver is None:
         return None
     return receiver.receive()

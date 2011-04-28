@@ -4,7 +4,7 @@ from zope.interface import Interface, Attribute
 from zope.schema import TextLine
 
 
-class IMessage(zope.interface.Interface):
+class IMessage(Interface):
     """A message that can be displayed to the user.
     """
     message = TextLine(
@@ -22,12 +22,16 @@ class IMessageSource(Interface):
     def send(text, type=u"message"):
         """Sends a message.
         """
+
+    def __len__():
+        """Returns the number of existing messages.
+        """
     
     def __iter__():
         """Iterates over existing messages.
         """
 
-    def __delitem__(message):
+    def remove(message):
         """Removes a message.
         """
 
