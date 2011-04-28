@@ -1,38 +1,39 @@
 # -*- coding: utf-8 -*-
 
-import zope.interface
-import zope.schema
+from zope.interface import Interface, Attribute
+from zope.schema import TextLine
 
 
 class IMessage(zope.interface.Interface):
-    """A message that can be displayed to the user."""
+    """A message that can be displayed to the user.
+    """
+    message = TextLine(
+        title=u"The message itself.")
+    
+    type = TextLine(
+        title=u"A classifier for the message",
+        default=u"message")
 
-    message = zope.schema.TextLine(title=u"The message itself.")
 
-    type = zope.schema.TextLine(title=u"A classifier for the message",
-                                default=u"message")
+class IMessageSource(Interface):
+    """A component that sends and stores messages.
+    """
 
-
-class IMessageSource(zope.interface.Interface):
-
-    def send(message, type=u"message"):
-        """Send a message to this source.
-
-        Message can either be a unicode string or an IMessage object.
+    def send(text, type=u"message"):
+        """Sends a message.
         """
     
     def __iter__():
-        """iter over sent message"""
+        """Iterates over existing messages.
+        """
 
     def __delitem__(message):
-        """remove message"""
+        """Removes a message.
+        """
 
 
-class IMessageReceiver(zope.interface.Interface):
-    """Receive messages.
-
-    Depending on the implementation, this receives messages from various
-    sources.
+class IMessageReceiver(Interface):
+    """A component that receives messages.
     """
 
     def receive(type=None):

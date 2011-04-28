@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '0.4.2'
+version = '0.1'
 
 readme = open(os.path.join('src', 'dolmen', 'message', 'README.txt')).read()
 changes = open("CHANGES.txt").read()
@@ -10,12 +10,12 @@ long_description = "%s\n\n%s\n" % (readme, changes)
 
 install_requires = [
     'setuptools',
-    'Beaker',
     'grokcore.component',
     'zope.component',
     ]
 
 tests_require = [
+    'cromlech.browser',
     ]
 
 setup(name='dolmen.message',
@@ -36,14 +36,9 @@ setup(name='dolmen.message',
       tests_require=tests_require,
       extras_require = dict(test=tests_require),
       classifiers=[
-          'Development Status :: 3 - Alpha',
           'Environment :: Web Environment',
-          'Intended Audience :: Developers',
           'License :: OSI Approved :: Zope Public License',
           'Programming Language :: Python',
-          'Natural Language :: English',
-          'Operating System :: OS Independent',
-          'Topic :: Internet :: WWW/HTTP',
         ],
       entry_points="""
       # -*- Entry points: -*-
