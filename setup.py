@@ -18,7 +18,6 @@ install_requires = [
     ]
 
 tests_require = [
-    'pytest',
     'cromlech.browser [test]',
     'zope.testing',
     ]
