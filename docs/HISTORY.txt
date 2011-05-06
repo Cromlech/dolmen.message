@@ -1,0 +1,7 @@
+CHANGES
+=======
+
+0.1 (unreleased)
+----------------
+
+- initial fork out of ``grokcore.message`` and ``z3c.flashmessage``.
