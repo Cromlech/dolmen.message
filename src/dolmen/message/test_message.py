@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import pytest
 import grokcore.component as grok
-from cromlech.browser import setSession, getSession
-from cromlech.io.testing import TestRequest
+from cromlech.browser import setSession
 from zope.component import getUtility
 from zope.testing.cleanup import cleanUp
 from dolmen.message import IMessageReceiver, IMessageSource

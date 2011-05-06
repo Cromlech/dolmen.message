@@ -9,14 +9,18 @@ changes = open(os.path.join('docs', "HISTORY.txt")).read()
 long_description = "%s\n\n%s\n" % (readme, changes)
 
 install_requires = [
-    'setuptools',
-    'grokcore.component',
-    'zope.component',
     'cromlech.io',
+    'grokcore.component',
+    'setuptools',
+    'zope.component',
+    'zope.interface',
+    'zope.schema',
     ]
 
 tests_require = [
-    'cromlech.browser',
+    'pytest',
+    'cromlech.browser [test]',
+    'zope.testing',
     ]
 
 setup(name='dolmen.message',
