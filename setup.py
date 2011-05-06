@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 
 version = '0.1'
 
-readme = open(os.path.join('src', 'dolmen', 'message', 'README.txt')).read()
-changes = open("CHANGES.txt").read()
+readme = open('README.txt').read()
+changes = open(os.path.join('docs', "HISTORY.txt")).read()
 
 long_description = "%s\n\n%s\n" % (readme, changes)
 

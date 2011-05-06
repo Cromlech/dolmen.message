@@ -5,3 +5,5 @@ from dolmen.message.interfaces import (
 
 from dolmen.message.components import (
     Message, SessionSource, MessageReceiver, BASE_MESSAGE_TYPE)
+
+from dolmen.message.utils import send, get_from_source, receive
