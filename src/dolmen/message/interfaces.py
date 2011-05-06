@@ -11,7 +11,7 @@ class IMessage(Interface):
     """
     message = TextLine(
         title=u"The message itself.")
-    
+
     type = TextLine(
         title=u"A classifier for the message",
         default=BASE_MESSAGE_TYPE)
@@ -28,7 +28,7 @@ class IMessageSource(Interface):
     def __len__():
         """Returns the number of existing messages.
         """
-    
+
     def __iter__():
         """Iterates over existing messages.
         """
