@@ -4,7 +4,6 @@ from zope.component import queryUtility
 from dolmen.message import IMessageSource, IMessageReceiver, BASE_MESSAGE_TYPE
 
 
-
 def send(message, type=BASE_MESSAGE_TYPE, name=''):
     """Adds a short message to a given source.
 
