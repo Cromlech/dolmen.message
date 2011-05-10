@@ -3,18 +3,14 @@
 import grokcore.component as grok
 from cromlech.io import IRequest
 from cromlech.browser import getSession
-from dolmen.message import IMessage, IMessageSource, IMessageReceiver
+from dolmen.message import interfaces
 from zope.interface import implements
-from zope.component import getUtility
-
-
-BASE_MESSAGE_TYPE = u'message'
 
 
 class Message(object):
-    implements(IMessage)
+    implements(interfaces.IMessage)
 
-    def __init__(self, message, type=BASE_MESSAGE_TYPE):
+    def __init__(self, message, type=interfaces.BASE_MESSAGE_TYPE):
         self.message = message
         self.type = type
 
@@ -23,11 +19,11 @@ class SessionSource(grok.GlobalUtility):
     """A message source storing messages into the session.
     """
     grok.context(IRequest)
-    grok.implements(IMessageSource)
+    grok.implements(interfaces.IMessageSource)
 
     _key = u'dolmen.message.session'
 
-    def send(self, text, type=BASE_MESSAGE_TYPE):
+    def send(self, text, type=interfaces.BASE_MESSAGE_TYPE):
         session = getSession()
         if session is None:
             return False
@@ -56,8 +52,8 @@ class SessionSource(grok.GlobalUtility):
 class MessageReceiver(grok.Adapter):
     """A receiver that can receive from any source.
     """
-    grok.context(IMessageSource)
-    implements(IMessageReceiver)
+    grok.context(interfaces.IMessageSource)
+    implements(interfaces.IMessageReceiver)
 
     def receive(self, type=None):
         for message in self.context:

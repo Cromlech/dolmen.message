@@ -12,6 +12,8 @@ install_requires = [
     'grokcore.component',
     'setuptools',
     'zope.component',
+    'zope.interface',
+    'zope.schema',
     ]
 
 tests_require = [

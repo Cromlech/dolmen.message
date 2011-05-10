@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from zope.interface import Interface, Attribute
+from zope.interface import Interface
 from zope.schema import TextLine
+
+BASE_MESSAGE_TYPE = u'message'
 
 
 class IMessage(Interface):
@@ -9,10 +11,10 @@ class IMessage(Interface):
     """
     message = TextLine(
         title=u"The message itself.")
-    
+
     type = TextLine(
         title=u"A classifier for the message",
-        default=u"message")
+        default=BASE_MESSAGE_TYPE)
 
 
 class IMessageSource(Interface):
@@ -26,7 +28,7 @@ class IMessageSource(Interface):
     def __len__():
         """Returns the number of existing messages.
         """
-    
+
     def __iter__():
         """Iterates over existing messages.
         """
