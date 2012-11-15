@@ -1,10 +1,16 @@
 Changelog
 =========
 
-0.1 (2012-11-15)
+0.1.1 (2012-11-15)
 ------------------
 
 * using cromlech.browser 0.5
+
+
+0.1 (2012-01-24)
+------------------
+
+* fixed bug when retrieving more than one message
 
 
 0.1a2 (2012-01-10)

@@ -81,3 +81,15 @@ def test_send_receive_failing_name():
 
     result = utils.send('Some message', name='unexisting')
     assert result == False
+
+
+def test_send_receive_some():
+    """verify we get all message if there are some"""
+    utils.send('Tomorrow, and tomorrow, and tomorrow,')
+    utils.send('Creeps in this petty pace from day to day,')
+    utils.send('To the last syllable of recorded time;')
+    utils.send('And all our yesterdays have lighted fools')
+    utils.send('The way to dusty death. Out, out, brief candle!')
+
+    messages = list(utils.receive())
+    assert len(messages) == 5

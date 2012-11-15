@@ -55,7 +55,8 @@ class MessageReceiver(grok.Adapter):
     implements(interfaces.IMessageReceiver)
 
     def receive(self, type=None):
-        for message in self.context:
+        messages = list(self.context)  # copy as we will mutate
+        for message in messages:
             if (type and message.type == type) or not type:
                 yield message
                 self.context.remove(message)
