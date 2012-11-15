@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import grokcore.component as grok
-from cromlech.io import IRequest
-from cromlech.browser import getSession
+from cromlech.browser import IRequest, getSession
 from dolmen.message import interfaces
 from zope.interface import implements
 

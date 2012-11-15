@@ -8,8 +8,7 @@ readme = open('README.txt').read()
 history = open(join('docs', 'HISTORY.txt')).read()
 
 install_requires = [
-    'cromlech.io',
-    'cromlech.browser',
+    'cromlech.browser >= 0.5',
     'grokcore.component',
     'setuptools',
     'zope.component',
