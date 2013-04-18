@@ -1,28 +1,31 @@
 # -*- coding: utf-8 -*-
+import crom
+from cromlech.browser import getSession
+from zope.interface import implementer
 
-import grokcore.component as grok
-from cromlech.browser import IRequest, getSession
-from dolmen.message import interfaces
-from zope.interface import implements
+from .interfaces import (
+    IMessage, IMessageSource, IMessageReceiver, BASE_MESSAGE_TYPE)
 
 
+@implementer(IMessage)
 class Message(object):
-    implements(interfaces.IMessage)
 
-    def __init__(self, message, type=interfaces.BASE_MESSAGE_TYPE):
+    def __init__(self, message, type=BASE_MESSAGE_TYPE):
         self.message = message
         self.type = type
 
 
-class SessionSource(grok.GlobalUtility):
+@crom.component_factory
+@crom.sources()
+@crom.target(IMessageSource)
+@implementer(IMessageSource)
+class SessionSource(object):
     """A message source storing messages into the session.
     """
-    grok.context(IRequest)
-    grok.implements(interfaces.IMessageSource)
 
     _key = u'dolmen.message.session'
 
-    def send(self, text, type=interfaces.BASE_MESSAGE_TYPE):
+    def send(self, text, type=BASE_MESSAGE_TYPE):
         session = getSession()
         if session is None:
             return False
@@ -30,6 +33,9 @@ class SessionSource(grok.GlobalUtility):
         messages.append(Message(text, type))
         session[self._key] = messages
         return True
+
+    def __call__(self):
+        return self
 
     def __len__(self):
         session = getSession()
@@ -48,11 +54,16 @@ class SessionSource(grok.GlobalUtility):
         session[self._key].remove(item)
 
 
-class MessageReceiver(grok.Adapter):
+@crom.adapter
+@crom.sources(IMessageSource)
+@crom.target(IMessageReceiver)
+@implementer(IMessageReceiver)
+class MessageReceiver(object):
     """A receiver that can receive from any source.
     """
-    grok.context(interfaces.IMessageSource)
-    implements(interfaces.IMessageReceiver)
+
+    def __init__(self, context):
+        self.context = context
 
     def receive(self, type=None):
         messages = list(self.context)  # copy as we will mutate

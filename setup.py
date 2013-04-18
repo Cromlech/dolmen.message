@@ -3,15 +3,14 @@
 from os.path import join
 from setuptools import setup, find_packages
 
-version = '0.1.1'
+version = '0.2-crom'
 readme = open('README.txt').read()
 history = open(join('docs', 'HISTORY.txt')).read()
 
 install_requires = [
     'cromlech.browser >= 0.5',
-    'grokcore.component',
+    'crom',
     'setuptools',
-    'zope.component',
     'zope.interface',
     'zope.schema',
     ]

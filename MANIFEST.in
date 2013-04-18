@@ -1,2 +1,2 @@
-recursive-include src/dolmen/message *.py *.zcml
+recursive-include src/dolmen/message *.py 
 recursive-include docs *.txt

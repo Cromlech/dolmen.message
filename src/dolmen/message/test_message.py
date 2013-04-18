@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import grokcore.component as grok
+import crom
 from cromlech.browser import setSession
-from zope.component import getUtility
-from zope.testing.cleanup import cleanUp
+from crom.testing import setup, teardown
+import dolmen.message
 from dolmen.message import IMessageReceiver, IMessageSource
 from dolmen.message import components, utils, BASE_MESSAGE_TYPE
 
@@ -14,19 +14,20 @@ SESSION = {}
 def setup_module(module):
     """ grok the publish module
     """
+    setup()
     setSession(SESSION)
-    grok.testing.grok("dolmen.message.components")
+    crom.configure(dolmen.message)
 
 
 def teardown_module(module):
     """ undo groking
     """
     setSession()
-    cleanUp()
+    #~ teardown()
 
 
 def test_registered_source_receiver():
-    source = getUtility(IMessageSource)
+    source = IMessageSource.component()
     assert source.__class__ == components.SessionSource
 
     source.send(u'Message that is a test.')
