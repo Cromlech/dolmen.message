@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from . import IMessageSource, IMessageReceiver, BASE_MESSAGE_TYPE
 
 
@@ -8,7 +9,7 @@ def send(message, type=BASE_MESSAGE_TYPE, name=''):
     If the message has been sent with success, True is returned.
     Otherwise, False is returned.
     """
-    source = IMessageSource.component(name=name)
+    source = IMessageSource.component(name=name, default=None)
     if source is None:
         return False
     source.send(message, type)
@@ -21,7 +22,7 @@ def get_from_source(name=''):
     If the received has been found with success, a list
     of messages is returned. Otherwise, False is returned.
     """
-    source = IMessageSource.component(name=name)
+    source = IMessageSource.component(name=name, default=None)
     if source is None:
         return None
     return list(source)
@@ -33,10 +34,10 @@ def receive(name='', type=BASE_MESSAGE_TYPE):
     If the received has been found with success, an iterable
     of messages is returned. Otherwise, None is returned.
     """
-    source = IMessageSource.component(name=name)
+    source = IMessageSource.component(name=name, default=None)
     if source is None:
         return None
-    receiver = IMessageReceiver(source)
+    receiver = IMessageReceiver(source, default=None)
     if receiver is None:
         return None
     return receiver.receive(type)

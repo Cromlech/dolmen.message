@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import crom
-from cromlech.browser import setSession
-from crom.testing import setup, teardown
 import dolmen.message
+
+from crom import testing
+from cromlech.browser import setSession
 from dolmen.message import IMessageReceiver, IMessageSource
 from dolmen.message import components, utils, BASE_MESSAGE_TYPE
 
@@ -14,7 +15,7 @@ SESSION = {}
 def setup_module(module):
     """ grok the publish module
     """
-    setup()
+    testing.setup()
     setSession(SESSION)
     crom.configure(dolmen.message)
 
@@ -23,7 +24,7 @@ def teardown_module(module):
     """ undo groking
     """
     setSession()
-    #~ teardown()
+    testing.teardown()
 
 
 def test_registered_source_receiver():
