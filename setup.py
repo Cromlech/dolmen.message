@@ -16,7 +16,7 @@ install_requires = [
     ]
 
 tests_require = [
-    'zope.testing',
+    'pytest',
     ]
 
 setup(name='dolmen.message',

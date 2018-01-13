@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import crom
 from cromlech.browser import getSession
 from zope.interface import implementer
@@ -22,6 +23,12 @@ class Message(object):
 class SessionSource(object):
     """A message source storing messages into the session.
     """
+
+    # Here, we explicitly re-assign the value through
+    # the session __setitem__, to be sure we trigger
+    # any mechanism meant to mark the session as dirty on set/remove.
+    # This is not fool-proof. Improve in your own implementation
+    # if needed.
 
     _key = u'dolmen.message.session'
 
@@ -49,9 +56,15 @@ class SessionSource(object):
 
     def remove(self, item):
         session = getSession()
-        if session is None or self._key not in session:
+        if session is None:
             raise ValueError("No session")
-        session[self._key].remove(item)
+
+        messages = session.get(self._key)
+        if messages is None:
+            raise KeyError("Session does contains messages.")
+
+        messages.remove(item)
+        session[self._key] = messages
 
 
 @crom.adapter
