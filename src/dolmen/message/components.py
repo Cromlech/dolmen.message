@@ -38,7 +38,7 @@ class SessionSource(object):
             return False
         messages = session.get(self._key, [])
         messages.append(Message(text, type))
-        session[self._key] = messages
+        session[self._key] = messages  # Trigger
         return True
 
     def __call__(self):
@@ -64,7 +64,7 @@ class SessionSource(object):
             raise KeyError("Session does contains messages.")
 
         messages.remove(item)
-        session[self._key] = messages
+        session[self._key] = messages  # Trigger
 
 
 @crom.adapter
