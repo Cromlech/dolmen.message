@@ -1,19 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import crom
+import uuid
 from cromlech.browser import getSession
 from zope.interface import implementer
 
-from .interfaces import (
-    IMessage, IMessageSource, IMessageReceiver, BASE_MESSAGE_TYPE)
-
-
-@implementer(IMessage)
-class Message(object):
-
-    def __init__(self, message, type=BASE_MESSAGE_TYPE):
-        self.message = message
-        self.type = type
+from .interfaces import IMessageSource, IMessageReceiver, BASE_MESSAGE_TYPE
 
 
 @crom.component_factory
@@ -32,12 +24,14 @@ class SessionSource(object):
 
     _key = u'dolmen.message.session'
 
-    def send(self, text, type=BASE_MESSAGE_TYPE):
+    def send(self, body, type=BASE_MESSAGE_TYPE):
         session = getSession()
         if session is None:
             return False
         messages = session.get(self._key, [])
-        messages.append(Message(text, type))
+        messages.append(
+            dict(body=body, type=type, id=str(uuid.uuid4().hex))
+        )
         session[self._key] = messages  # Trigger
         return True
 
@@ -74,13 +68,12 @@ class SessionSource(object):
 class MessageReceiver(object):
     """A receiver that can receive from any source.
     """
-
     def __init__(self, context):
         self.context = context
 
     def receive(self, type=None):
         messages = list(self.context)  # copy as we will mutate
         for message in messages:
-            if (type and message.type == type) or not type:
+            if (type and message['type'] == type) or not type:
                 yield message
                 self.context.remove(message)
