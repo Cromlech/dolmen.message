@@ -17,3 +17,6 @@ install:
 
 script:
   - bin/pytest
+
+virtualenv:
+    system_site_packages: true
