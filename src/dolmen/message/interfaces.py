@@ -6,17 +6,6 @@ from zope.schema import TextLine
 BASE_MESSAGE_TYPE = u'message'
 
 
-class IMessage(Interface):
-    """A message that can be displayed to the user.
-    """
-    message = TextLine(
-        title=u"The message itself.")
-
-    type = TextLine(
-        title=u"A classifier for the message",
-        default=BASE_MESSAGE_TYPE)
-
-
 class IMessageSource(Interface):
     """A component that sends and stores messages.
     """

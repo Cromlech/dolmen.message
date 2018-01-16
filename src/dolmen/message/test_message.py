@@ -11,6 +11,13 @@ from dolmen.message import components, utils, BASE_MESSAGE_TYPE
 SESSION = {}
 
 
+@pytest.fixture
+def mocked_uuid(mocker):
+    mock_uuid = mocker.patch.object(uuid, 'uuid4', autospec=True)
+    mock_uuid.return_value = uuid.UUID(hex='2abc74bdfd784bf5ba81e9d79d2a9f21')
+    return mock_uuid
+
+
 def setup_module(module):
     """ grok the publish module
     """
@@ -25,7 +32,7 @@ def teardown_module(module):
     cleanUp()
 
 
-def test_registered_source_receiver():
+def test_registered_source_receiver(mocked_uuid):
     source = getUtility(IMessageSource)
     assert source.__class__ == components.SessionSource
 
@@ -33,8 +40,11 @@ def test_registered_source_receiver():
     assert 'dolmen.message.session' in SESSION
     assert len(source) == 1
 
-    assert ([(msg.message, msg.type) for msg in source] ==
-            [(u'Message that is a test.', u'message')])
+    assert [msg for msg in source] == [{
+        'type': 'message',
+        'body': 'Message that is a test.',
+        'id': '2abc74bdfd784bf5ba81e9d79d2a9f21',
+    }]
 
     # iterating did not pop anything
     assert len(source) == 1
@@ -47,7 +57,7 @@ def test_registered_source_receiver():
     messages = list(receiver.receive())
     assert len(messages) == 1
     assert len(source) == 0
-    assert messages[0].type == BASE_MESSAGE_TYPE
+    assert messages[0]['type'] == BASE_MESSAGE_TYPE
 
 
 def test_send_receive():
@@ -58,7 +68,7 @@ def test_send_receive():
 
     messages = list(utils.receive())
     assert len(messages) == 1
-    assert messages[0].type == BASE_MESSAGE_TYPE
+    assert messages[0]['type'] == BASE_MESSAGE_TYPE
 
 
 def test_send_receive_type():

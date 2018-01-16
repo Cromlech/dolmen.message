@@ -3,9 +3,10 @@
 from os.path import join
 from setuptools import setup, find_packages
 
-version = '0.1.1'
+version = '0.1.2+legacy'
 readme = open('README.txt').read()
 history = open(join('docs', 'HISTORY.txt')).read()
+
 
 install_requires = [
     'cromlech.browser >= 0.5',
@@ -17,7 +18,8 @@ install_requires = [
     ]
 
 tests_require = [
-    'zope.testing',
+    'pytest-mock',
+    'pytest',
     ]
 
 setup(name='dolmen.message',

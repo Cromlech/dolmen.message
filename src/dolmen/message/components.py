@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import uuid
 import grokcore.component as grok
 from cromlech.browser import IRequest, getSession
 from dolmen.message import interfaces
 from zope.interface import implements
-
-
-class Message(object):
-    implements(interfaces.IMessage)
-
-    def __init__(self, message, type=interfaces.BASE_MESSAGE_TYPE):
-        self.message = message
-        self.type = type
 
 
 class SessionSource(grok.GlobalUtility):
@@ -27,7 +20,9 @@ class SessionSource(grok.GlobalUtility):
         if session is None:
             return False
         messages = session.get(self._key, [])
-        messages.append(Message(text, type))
+        messages.append(
+            {"message": text, "type": type, "uid": str(uuid.uuid4())}
+        )
         session[self._key] = messages
         return True
 
@@ -57,6 +52,6 @@ class MessageReceiver(grok.Adapter):
     def receive(self, type=None):
         messages = list(self.context)  # copy as we will mutate
         for message in messages:
-            if (type and message.type == type) or not type:
+            if (type and message['type'] == type) or not type:
                 yield message
                 self.context.remove(message)
