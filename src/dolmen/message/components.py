@@ -21,7 +21,7 @@ class SessionSource(grok.GlobalUtility):
             return False
         messages = session.get(self._key, [])
         messages.append(
-            {"message": text, "type": type, "uid": str(uuid.uuid4())}
+            {"message": text, "type": type, "uid": str(uuid.uuid4().hex)}
         )
         session[self._key] = messages
         return True

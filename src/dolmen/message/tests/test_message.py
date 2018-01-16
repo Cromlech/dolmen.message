@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import uuid
+import pytest
 import grokcore.component as grok
 from cromlech.browser import setSession
 from zope.component import getUtility
@@ -41,9 +43,9 @@ def test_registered_source_receiver(mocked_uuid):
     assert len(source) == 1
 
     assert [msg for msg in source] == [{
-        'type': 'message',
-        'body': 'Message that is a test.',
-        'id': '2abc74bdfd784bf5ba81e9d79d2a9f21',
+        'message': u'Message that is a test.',
+        'type': u'message',
+        'uid': '2abc74bdfd784bf5ba81e9d79d2a9f21',
     }]
 
     # iterating did not pop anything
