@@ -22,7 +22,6 @@
 build/
 dist/
 
-
 # miscellaneous
 *.orig
 *.ori
@@ -30,3 +29,16 @@ dist/
 *.svn
 *.rej
 *.egg-info
+
+# buildout
+.cache/
+.installed.cfg
+.mr.developer.cfg
+bin/
+checkouts/
+develop-eggs/
+eggs/
+include/
+lib/
+pip-selfcheck.json
+share/
